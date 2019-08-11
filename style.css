@@ -1,0 +1,72 @@
+body {
+    box-sizing: border-box;
+}
+
+.animation {
+    margin: 30px auto;
+    width: 430px;
+    height: 380px;
+    position: relative;
+}
+
+.animation__top, .animation__left,
+.animation__down, .animation__right{
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    padding: 15px;
+}
+
+.animation__left, .animation__right {
+    flex-direction: column;
+    height: 300px;
+    top: 30px;
+}
+
+.animation__right {
+    position: relative;
+    left: 350px;
+    top: -50px;
+    width: 50px;
+    flex-direction: column-reverse;
+}
+
+.animation__top, .animation__down {
+    width: 300px;
+    margin-left: 50px;
+}
+
+.animation__top {
+    flex-direction: row-reverse;
+    top: 0;
+}
+
+.animation__down {
+    position: relative;
+    top: 300px;
+}
+
+.animation__centr {
+    border: 1px solid black;
+    border-radius: 30px;
+    position: absolute;
+    left: 115px;
+    bottom: 150px;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    line-height: 50px;
+    font-family: "Comic Sans MS", sans-serif;
+    font-size: small;
+    cursor: pointer;
+}
+
+.animation__elem {
+    border: 1px;
+    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    position: relative;
+    transition: transform 2s, background-color 200ms;
+}

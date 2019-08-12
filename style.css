@@ -4,34 +4,29 @@ body {
 
 .animation {
     margin: 30px auto;
-    width: 430px;
-    height: 380px;
     position: relative;
 }
 
-.animation__top, .animation__left,
-.animation__down, .animation__right{
+.vertical, .horizontal{
     display: flex;
     justify-content: space-around;
     position: absolute;
     padding: 15px;
 }
 
-.animation__left, .animation__right {
+.vertical {
     flex-direction: column;
-    height: 300px;
     top: 30px;
 }
 
 .animation__right {
-    position: relative;
-    left: 350px;
-    top: -50px;
+    position: absolute;
+    right: 0;
     width: 50px;
     flex-direction: column-reverse;
 }
 
-.animation__top, .animation__down {
+.horizontal {
     width: 300px;
     margin-left: 50px;
 }
@@ -42,31 +37,34 @@ body {
 }
 
 .animation__down {
-    position: relative;
-    top: 300px;
+    position: absolute;
+    bottom: -10px;
 }
 
 .animation__centr {
     border: 1px solid black;
     border-radius: 30px;
     position: absolute;
-    left: 115px;
-    bottom: 150px;
-    width: 200px;
-    height: 100px;
-    text-align: center;
-    line-height: 50px;
+    left: 30%;
+    bottom: 35%;
+    width: 40%;
+    height: 30%;
     font-family: "Comic Sans MS", sans-serif;
     font-size: small;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .animation__elem {
     border: 1px;
-    border-radius: 50px;
-    width: 40px;
-    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     margin: 5px;
     position: relative;
-    transition: transform 2s, background-color 200ms;
+    transition: transform 2s;
+    animation: background-color;
+    border: 1px solid silver;
+    border-radius: 50px;
 }

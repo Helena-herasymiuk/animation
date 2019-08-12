@@ -1,49 +1,69 @@
-'use strict'
+"use strict";
+
 class Animation {
-  constructor({ element }) {
+  constructor({ element, oneSideElements }) {
     this._element = element;
     this.colors = ['red', 'blue', 'green', 'yellow'];
-    this.circles = this._blocks();
+    this.oneSide = oneSideElements;
+    this.circles = this._blocks(this.oneSide);
 
     this._render();
     this._blinkingBlocks();
     this._colorOfBlock();
     this._blocks();
+    this._setSizes();
 
-    this._element.addEventListener('click', (event) => {
-      const button = this._element.querySelector('.animation__centr');
-      if (event.target !== button && event.target !== button.firstElementChild) {
-        return;
-      }
+    this.button = this._element.querySelector('.animation__centr');
+    this.button.addEventListener('click', () => {
       this._transform();
     });
   }
 
   _transform() {
     const elemCircles = document.querySelectorAll('.animation__elem');
-    [...elemCircles].forEach((elem, i) => {
+    [...elemCircles].forEach((elem) => {
       if (elem.classList.contains('circled')) {
         elem.style.transform = 'translate(0)';
         elem.classList.remove('circled');
         return;
       }
       elem.classList.add('circled');
-      if (i < 3) {
+    });
+
+    const halfSide = this.oneSide / 2;
+    const leftSideElem = document.querySelectorAll('.animation__left > .animation__elem.circled');
+    [...leftSideElem].forEach((elem, i) => {
+      if (i < halfSide) {
         elem.style.transform = `translate(${(i * -15)}px)`;
-      } else if (i < 6) {
-        elem.style.transform = `translate(${((i - 3) * 15) - 20}px)`;
-      } else if (i < 9) {
-        elem.style.transform = `translateY(${((i - 6) * 15) + 10}px)`;
-      } else if (i < 12) {
-        elem.style.transform = `translateY(${((i - 9) * -15) + 40}px)`;
-      } else if (i < 15) {
-        elem.style.transform = `translate(${((i - 12) * 15) - 10}px)`;
-      } else if (i < 18) {
-        elem.style.transform = `translate(${((i - 15) * -15) + 20}px)`;
-      } else if (i < 21) {
-        elem.style.transform = `translateY(${((i - 18) * -15)}px)`;
-      } else if (i < 24) {
-        elem.style.transform = `translateY(${((i - 21) * 15) - 35}px)`;
+      } else if (i < this.oneSide) {
+        elem.style.transform = `translate(${(i - this.oneSide + 1) * 15}px)`;
+      }
+    });
+
+    const ridgtSideElem = document.querySelectorAll('.animation__right > .animation__elem.circled');
+    [...ridgtSideElem].forEach((elem, i) => {
+      if (i < halfSide) {
+        elem.style.transform = `translate(${(i * 15)}px)`;
+      } else if (i < this.oneSide) {
+        elem.style.transform = `translate(${((i - this.oneSide + 1) * -15)}px)`;
+      }
+    });
+
+    const topSideElem = document.querySelectorAll('.animation__top > .animation__elem.circled');
+    [...topSideElem].forEach((elem, i) => {
+      if (i < halfSide) {
+        elem.style.transform = `translateY(${(i * -15)}px)`;
+      } else if (i < this.oneSide) {
+        elem.style.transform = `translateY(${((i - this.oneSide + 1) * 15)}px)`;
+      }
+    });
+
+    const downSideElem = document.querySelectorAll('.animation__down > .animation__elem.circled');
+    [...downSideElem].forEach((elem, i) => {
+      if (i < halfSide) {
+        elem.style.transform = `translateY(${(i * 15)}px)`;
+      } else if (i < this.oneSide) {
+        elem.style.transform = `translateY(${((i - this.oneSide + 1) * -15)}px)`;
       }
     });
   }
@@ -73,6 +93,8 @@ class Animation {
             return 'red';
           case 'red':
             return 'yellow';
+          default:
+            return 'orange';
         }
       });
       const elemCircles = document.querySelectorAll('.animation__elem');
@@ -83,9 +105,9 @@ class Animation {
     setInterval(change, 500);
   }
 
-  _blocks() {
+  _blocks(x) {
     const arr = [];
-    for (let i = 1; i < 25; i++) {
+    for (let i = 1; i <= (x * 4); i++) {
       arr.push(`
         <div class="animation__elem" 
              style="background-color: ${this._colorOfBlock(i)}">
@@ -94,22 +116,35 @@ class Animation {
     return arr;
   }
 
+  _setSizes() {
+    const vertical = document.querySelectorAll('.vertical');
+    vertical.forEach((el) => {
+      el.style.height = `${this.oneSide * 50 + 30}px`;
+    });
+    const horizontal = document.querySelectorAll('.horizontal');
+    horizontal.forEach((el) => {
+      el.style.width = `${this.oneSide * 50 + 30}px`;
+    });
+    this._element.style.width = `${(this.oneSide + 3) * 50}px`;
+    this._element.style.height = `${(this.oneSide + 2) * 50}px`;
+  }
+
   _render() {
     this._element.innerHTML = `
       <div class="animation__centr">
           <h1>Change</h1>
       </div>
-      <div class="animation__left">
-        ${this.circles.slice(0, 6).join(' ')}
+      <div class="animation__left vertical">
+        ${this.circles.slice(0, this.oneSide).join(' ')}
       </div>
-      <div class="animation__down">
-        ${this.circles.slice(6, 12).join(' ')}
+      <div class="animation__down horizontal">
+        ${this.circles.slice(this.oneSide, this.oneSide * 2).join(' ')}
       </div>
-     <div class="animation__right">
-        ${this.circles.slice(12, 18).join(' ')}
+     <div class="animation__right vertical">
+        ${this.circles.slice(this.oneSide * 2, this.oneSide * 3).join(' ')}
       </div>
-      <div class="animation__top">
-        ${this.circles.slice(18, 24).join(' ')}
+      <div class="animation__top horizontal">
+        ${this.circles.slice(this.oneSide * 3, this.oneSide * 4).join(' ')}
       </div>
     `;
   }
@@ -117,4 +152,5 @@ class Animation {
 
 const animation = new Animation({
   element: document.querySelector('.animation'),
+  oneSideElements: 7
 });

@@ -116,7 +116,6 @@ class Animation {
       arr.push(`
         <div class="animation__elem" 
              style="background-color: ${this._colorOfBlock(i)}">
-             ${i}
         </div>`);
     }
     return arr;

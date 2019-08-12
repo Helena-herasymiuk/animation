@@ -30,40 +30,45 @@ class Animation {
       elem.classList.add('circled');
     });
 
+    const getSqrt = (i) => {
+      return Math.sqrt((i - this.oneSide + 1) * -1) || 0.3
+    }
     const halfSide = this.oneSide / 2;
+    const multi = 40;
+
     const leftSideElem = document.querySelectorAll('.animation__left > .animation__elem.circled');
     [...leftSideElem].forEach((elem, i) => {
       if (i < halfSide) {
-        elem.style.transform = `translate(${(i * -15)}px)`;
+        elem.style.transform = `translate(${(Math.sqrt(i || 0.4) * -multi) + 20}px)`;
       } else if (i < this.oneSide) {
-        elem.style.transform = `translate(${(i - this.oneSide + 1) * 15}px)`;
+        elem.style.transform = `translate(${(getSqrt(i) * -multi) + 20}px)`;
       }
     });
 
-    const ridgtSideElem = document.querySelectorAll('.animation__right > .animation__elem.circled');
-    [...ridgtSideElem].forEach((elem, i) => {
+    const rightSideElem = document.querySelectorAll('.animation__right > .animation__elem.circled');
+    [...rightSideElem].forEach((elem, i) => {
       if (i < halfSide) {
-        elem.style.transform = `translate(${(i * 15)}px)`;
+        elem.style.transform = `translate(${(Math.sqrt(i || 0.2) * multi) - 10}px)`;
       } else if (i < this.oneSide) {
-        elem.style.transform = `translate(${((i - this.oneSide + 1) * -15)}px)`;
+        elem.style.transform = `translate(${(getSqrt(i) * multi) - 5}px)`;
       }
     });
 
     const topSideElem = document.querySelectorAll('.animation__top > .animation__elem.circled');
     [...topSideElem].forEach((elem, i) => {
       if (i < halfSide) {
-        elem.style.transform = `translateY(${(i * -15)}px)`;
+        elem.style.transform = `translateY(${(Math.sqrt(i || 0.2) * -multi) + 5}px)`;
       } else if (i < this.oneSide) {
-        elem.style.transform = `translateY(${((i - this.oneSide + 1) * 15)}px)`;
+        elem.style.transform = `translateY(${getSqrt(i) * -multi}px)`;
       }
     });
 
     const downSideElem = document.querySelectorAll('.animation__down > .animation__elem.circled');
     [...downSideElem].forEach((elem, i) => {
       if (i < halfSide) {
-        elem.style.transform = `translateY(${(i * 15)}px)`;
+        elem.style.transform = `translateY(${Math.sqrt(i || 0.4) * multi}px)`;
       } else if (i < this.oneSide) {
-        elem.style.transform = `translateY(${((i - this.oneSide + 1) * -15)}px)`;
+        elem.style.transform = `translateY(${getSqrt(i) * multi}px)`;
       }
     });
   }
@@ -111,6 +116,7 @@ class Animation {
       arr.push(`
         <div class="animation__elem" 
              style="background-color: ${this._colorOfBlock(i)}">
+             ${i}
         </div>`);
     }
     return arr;
@@ -152,5 +158,5 @@ class Animation {
 
 const animation = new Animation({
   element: document.querySelector('.animation'),
-  oneSideElements: 7
+  oneSideElements: 6
 });
